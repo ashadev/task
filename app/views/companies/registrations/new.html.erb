@@ -1,0 +1,235 @@
+<div class="login_screen">
+      <span class="back_text"><img src="<%= asset_path('right_arrow.png') %>" alt="right_arrow"> Sign Up</span>
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <%= link_to "Login", new_company_session_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+            <%= link_to "Sign Up", new_company_registration_path, class: "nav-link active", "data-toggle" => "tab" %>
+        </li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+          <div class="row">
+              <% if flash[:success] %>
+                  <div class="success_msg" id=""><%= flash[:success] %></div>
+              <% end %>
+              <% if flash[:error] %>
+                  <div class="error_msg" id=""><%= flash[:error] %></div>
+              <% end %>
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="login">
+            
+        </div>
+          <div role="tabpanel" class="tab-pane fade in active" id="sign_up">
+            <%= form_tag company_registration_path do %>
+          
+          <div class="form-group">
+            <label for="exampleInputName">Company name</label>
+            <%= text_field_tag "company_name", "", class: "form-control border_line", maxlength: 30, id: "sign_up_company_name", onkeypress: "return IsAlphaPersonName(event);" %>
+            <span id="sign_up_company_name_err" class="error-text"></span>
+          </div>
+          
+          
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <%= text_field_tag "email", "", class: "form-control border_line", maxlength: 50, id: "sign_up_email" %>
+            <span id="sign_up_email_err" class="error-text"></span>
+          </div>
+          
+          <div class="form-group">
+            <label for="exampleInputLastName">Owner name</label>
+            <%= text_field_tag "owner_name", "", class: "form-control border_line", maxlength: 30, id: "sign_up_owner_name", onkeypress: "return IsAlphaPersonName(event);" %>
+            <span id="sign_up_owner_name_err" class="error-text"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Phone Number</label>
+            <%= text_field_tag "phone_number", "", class: "form-control border_line", maxlength: 10, id: "sign_up_phone_number", onkeypress: "return IsNumeric(event);" %>
+            <span id="sign_up_phone_number_err" class="error-text"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Phone Number2(optional)</label>
+            <%= text_field_tag "phone_number2", "", class: "form-control border_line", maxlength: 10, id: "sign_up_phone_number2", onkeypress: "return IsNumeric(event);" %>
+            <span id="sign_up_phone_number2_err" class="error-text"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Phone Number3(optional)</label>
+            <%= text_field_tag "phone_number3", "", class: "form-control border_line", maxlength: 10, id: "sign_up_phone_number3", onkeypress: "return IsNumeric(event);" %>
+            <span id="sign_up_phone_number3_err" class="error-text"></span>
+          </div>
+
+          
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <%= password_field_tag "password", "", class: "form-control border_line", maxlength: 20, id: "sign_up_password" %>
+            <span id="sign_up_password_err" class="error-text"></span>
+          </div>
+          
+          <div class="form-group">
+              <label for="exampleConfirmPassword">Confirm password</label>
+              <%= password_field_tag "confirm_password", "", class: "form-control border_line", maxlength: 20, id: "sign_up_confirm_password" %>
+              <span id="sign_up_confirm_password_err" class="error-text"></span>
+          </div>
+
+          <%= submit_tag "Register", class: "btn btn-primary blue_btn", onclick: "return SignUpForm()", id: "sign_up_btn" %>
+        <% end %>
+          </div>
+      </div>
+    </div>
+
+<script type="text/javascript">
+    function SignUpForm() {
+        company_name = $('#sign_up_company_name').val().trim();
+        email = $('#sign_up_email').val();
+        phone_number = $('#sign_up_phone_number').val();
+        phone_numbe2 = $('#sign_up_phone_numbe2').val();
+        phone_number3 = $('#sign_up_phone_number3').val();
+        owner_name = $('#sign_up_owner_name').val().trim();
+        password = $('#sign_up_password').val();
+        confirm_password = $('#sign_up_confirm_password').val();
+
+        if(company_name == null || company_name == '') {
+            $('#sign_up_company_name_err').html('Company Name is required')
+            $('#sign_up_company_name').focus();
+            return false;
+        }else {
+            $('#sign_up_company_name_err').html('')
+        }
+
+        if (/^([a-zA-Z']+\s){0,4}[a-zA-Z']+$/.test(company_name)){
+            $('#sign_up_company_name_err').html('')
+        }else {
+            $('#sign_up_company_name_err').html('Company Name is invalid')
+            $('#sign_up_company_name').focus();
+            return false;
+        }
+
+        if(email == null || email == '') {
+            $('#sign_up_email_err').html('Email is required')
+            $('#sign_up_email').focus();
+            return false;
+        }else{
+            $('#sign_up_email_err').html('')
+        }
+
+        if (validateEmail(email)) {
+            email_username = email.split('@')[0]
+            if (!/^(?=.*[a-zA-Z])[a-zA-Z0-9][ .&()_-\w]*$/.test(email_username)) {
+                $('#sign_up_email_err').html('Email Id is invalid');
+                $('#sign_up_email').focus();
+                return false;
+            } else {
+                $('#sign_up_email_err').html('')
+            }
+        }else{
+            $('#sign_up_email_err').html('Email Id is invalid')
+            $('#sign_up_email').focus();
+            return false;
+        }
+
+        if(owner_name == null || owner_name == '') {
+            $('#sign_up_owner_name_err').html('Owner Name is required')
+            $('#sign_up_owner_name').focus();
+            return false;
+        }else{
+            $('#sign_up_owner_name_err').html('')
+        }
+
+        if (/^([a-zA-Z']+\s){0,4}[a-zA-Z']+$/.test(owner_name)){
+            $('#sign_up_owner_name_err').html('')
+        }else {
+            $('#sign_up_owner_name_err').html('Owner Name is invalid')
+            $('#sign_up_owner_name').focus();
+            return false;
+        }
+
+        if(phone_number == null || phone_number == '') {
+            $('#sign_up_phone_number_err').html('Phone Number is required')
+            $('#sign_up_phone_number').focus();
+            return false;
+        }else{
+            $('#sign_up_phone_number_err').html('')
+        }
+
+        if(phone_number.length != 10) {
+            $('#sign_up_phone_number_err').html('Phone Number should be 10 digit')
+            $('#sign_up_phone_number').focus();
+            return false;
+        }else{
+            $('#sign_up_phone_number_err').html('')
+        }
+
+        if(phone_numbe2 == null || phone_numbe2 == '') {
+        }else{
+          if(phone_numbe2.length != 10) {
+            $('#sign_up_phone_numbe2_err').html('Phone Number 2 should be 10 digit')
+            $('#sign_up_phone_numbe2').focus();
+            return false;
+          }else{
+              $('#sign_up_phone_numbe2_err').html('')
+          }
+        }
+
+        if(phone_number3 == null || phone_number3 == '') {
+        }else{
+          if(phone_number3.length != 10) {
+            $('#sign_up_phone_number3_err').html('Phone Number 3 should be 10 digit')
+            $('#sign_up_phone_number3').focus();
+            return false;
+          }else{
+              $('#sign_up_phone_number3_err').html('')
+          }
+        }
+
+        if(password == null || password == '') {
+            $('#sign_up_password_err').html('Password is required');
+            $('#sign_up_password').focus();
+            return false;
+        }else{
+            $('#sign_up_password_err').html('')
+        }
+
+        if (password.length < 6){
+            $('#sign_up_password_err').html('Password should be 6-20 characters');
+            $('#sign_up_password').focus();
+            return false;
+        }else{
+            $('#sign_up_password_err').html('')
+        }
+
+        if (validatePassword(password)) {
+        }else{
+          $('#sign_up_password_err').html('Password should be contain aleast one lower and upper case, one number and one special character.');
+            $('#sign_up_password').focus();
+            return false;
+        }
+
+        if(confirm_password == null || confirm_password == '') {
+            $('#sign_up_confirm_password_err').html('Confirm Password is required');
+            $('#sign_up_confirm_password').focus();
+            return false;
+        }else{
+            $('#sign_up_confirm_password_err').html('')
+        }
+
+        if (confirm_password.length < 6){
+            $('#sign_up_confirm_password_err').html('Confirm Password should be 6-20 characters');
+            $('#sign_up_confirm_password').focus();
+            return false;
+        }else{
+            $('#sign_up_confirm_password_err').html('')
+        }
+
+        if (password == confirm_password){
+            $('#sign_up_confirm_password_err').html('')
+        }else {
+            $('#sign_up_confirm_password_err').html('Password and Confirm Password do not match');
+            $('#sign_up_confirm_password').focus();
+            return false;
+        }
+        
+    }
+</script>

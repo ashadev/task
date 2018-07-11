@@ -1,0 +1,28 @@
+<div class="confirm_section">
+	<div class="modal" id="DeleteVehicle">
+	    <div class="modal-dialog">
+	      <div class="modal-content">
+	      
+	        <!-- Modal Header -->
+	        <div class="modal-header">
+	          <h4 class="modal-title">Delete Vehicle</h4>
+	          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+	        </div>
+	        
+	        <!-- Modal body -->
+	        <div class="modal-body">
+	          Are you sure you want to delete <b id="vechileName"></b>?
+		        <%= form_tag delete_vehicle_path, method: :delete, class: "col-sm-12 form-horizontal" do %>
+						<input type="hidden" name="id"  id="VehicleId" value=""/>
+		        	<!-- Modal footer -->
+			        <div class="modal-footer">
+			        	<%= submit_tag "Yes", class: "btn btn-default yes_color modal_btn" %>
+			          <button type="button" class="btn btn-default no_color modal_btn" data-dismiss="modal">No</button>
+			        </div>
+			    <% end %>
+	        </div>
+	        
+	      </div>
+	    </div>
+	</div>
+</div>

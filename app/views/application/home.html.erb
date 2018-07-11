@@ -1,0 +1,249 @@
+<% if current_company.present? %>
+  <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        width: 100%;
+        height: 500px;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+     /* #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+      #floating-panel {
+        margin-left: -52px;
+      }*/
+  </style>
+	<div class="trip_screen">
+      <div class="row">
+        <div class="col-xl-6 col-md-6">
+          <span class="back_text"><img src="<%= asset_path('right_arrow.png') %>" alt="right_arrow">&nbsp;Vehicles</span>
+        </div>
+        <div class="col-xl-6 col-md-6">
+          <!-- <ul class="top_icons">
+            <li><img src="<%= asset_path('icons-filter-dark.png') %>" alt="icons-filter-dark"></li>
+            <li><img src="<%= asset_path('path.png') %>" alt="path"></li>
+          </ul> -->
+          <%= link_to destroy_company_session_path, method: :delete do %><img src="<%= asset_path('logout.png') %>" alt="logout" class="logout_btn"><% end %>
+        </div>
+      </div>
+      <div class="row">
+        <% if flash[:success] %>
+            <div class="success_msg" id=""><%= flash[:success] %></div>
+        <% end %>
+        <% if flash[:error] %>
+            <div class="error_msg" id=""><%= flash[:error] %></div>
+        <% end %>
+      </div>
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" href="#active" role="tab" data-toggle="tab">Active Vehicle (<%= current_company.vehicles.active.count %>)</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#inactive" role="tab" data-toggle="tab">Inactive Vehicle (<%= current_company.vehicles.inactive.count %>)</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#tab_map" role="tab" data-toggle="tab" id="show_map">Show Map</a>
+        </li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade in active" id="active">
+            <% current_company.vehicles.active.each do |vehicle| %>
+              <div class="vehicle_list">
+                <!-- <div class="date_card">
+                  <span>JAN 10</span>
+                </div> -->
+                <div class="vehicle_card">
+                  <div class="header">
+                    <div class="row padd_align">
+                      <div class="col-xl-6 col-md-6">
+                        <h4><%= vehicle.vehicle_name %></h4>
+                        <h5><%= vehicle.vehicle_number %></h5>
+                      </div>
+                      <div class="col-xl-6 col-md-6">
+                        <span class="status">Active</span>    
+                      <div class="can-toggle demo-rebrand-2">
+                          <img src="<%= asset_path('on_btn.png') %>" alt="clock">
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bottom">
+                    <h6><img src="<%= asset_path('id_img.png') %>" alt="id_img"> ID: <%= vehicle.device_id %></h6>
+                    <h6 class="pad_top"><img src="<%= asset_path('clock.png') %>" alt="clock"> Last updated time <%= vehicle.last_updated_time %></h6>
+                    <div class="row">
+                      <div class="col-xl-4 col-md-4">
+                        <span class="fuel"><img src="<%= asset_path('gas-station.png') %>" alt="gas-station">Fuel</span>
+                        <h5><%= vehicle.last_30_mins_fuel_Level %> mV</h5>
+                      </div>
+                      <div class="col-xl-4 col-md-4">
+                        <span class="travel"><img src="<%= asset_path('route.png') %>" alt="route">Travel</span>
+                        <h5><%= vehicle.last_30_mins_distance_traveled %> Km</h5>
+                      </div>
+                      <div class="col-xl-4 col-md-4">
+                        <%= link_to vehicle_path(vehicle) do %>
+                          <span class="map_icon" style="background-color: #<%= vehicle.color %>">
+                            <img src="<%= asset_path('maps-and-flags.png') %>" alt="maps-and-flags">
+                            <h6>Show <img src="<%= asset_path('arrow-point-to-right.png') %>" alt="arrow-point-to-right"></h6>
+                          </span>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            
+            <%= link_to new_vehicle_path do %><img src="<%= asset_path('plus_icon.png') %>" class="sticky_img"><% end %>
+            <!-- 
+            <%= link_to "Add vehicle", new_vehicle_path, class: "btn btn-default blue_btn" %> -->
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="inactive">
+            <% current_company.vehicles.inactive.each do |vehicle| %>
+              <div class="vehicle_list">
+                <!-- <div class="date_card">
+                  <span>JAN 10</span>
+                </div> -->
+                <div class="vehicle_card">
+                  <div class="header">
+                    <div class="row padd_align">
+                      <div class="col-xl-6 col-md-6">
+                        <h4><%= vehicle.vehicle_name %></h4>
+                        <h5><%= vehicle.vehicle_number %></h5>
+                      </div>
+                      <div class="col-xl-6 col-md-6">
+                        <span class="status">InActive</span>    
+                      <div class="can-toggle demo-rebrand-2">
+                          <img src="<%= asset_path('off_btn.png') %>" alt="clock">
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bottom">
+                    <h6><img src="<%= asset_path('id_img.png') %>" alt="id_img"> ID: <%= vehicle.device_id %></h6>
+                    <h6 class="pad_top"><img src="<%= asset_path('clock.png') %>" alt="clock"> Last updated time <%= vehicle.last_updated_time %></h6>
+                    <div class="row">
+                      <div class="col-xl-4 col-md-4">
+                        <span class="fuel"><img src="<%= asset_path('gas-station.png') %>" alt="gas-station">Fuel</span>
+                        <h5><%= vehicle.last_30_mins_fuel_Level %> mV</h5>
+                      </div>
+                      <div class="col-xl-4 col-md-4">
+                        <span class="travel"><img src="<%= asset_path('route.png') %>" alt="route">Travel</span>
+                        <h5><%= vehicle.last_30_mins_distance_traveled %> Km</h5>
+                      </div>
+                      <div class="col-xl-4 col-md-4">
+                        <%= link_to vehicle_path(vehicle) do %>
+                          <span class="map_icon" style="background-color: #<%= vehicle.color %>">
+                            <img src="<%= asset_path('maps-and-flags.png') %>" alt="maps-and-flags">
+                            <h6>Show <img src="<%= asset_path('arrow-point-to-right.png') %>" alt="arrow-point-to-right"></h6>
+                          </span>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="tab_map">
+            <div id="floating-panel">
+              <button id="drop" onclick="drop()" style="display: none;">Show Map</button>
+            </div>
+            <div id="map"></div>
+           <!--  <div id="floating-panel">
+              <button id="drop" onclick="drop()">Show Map</button>
+            </div> -->
+            
+          </div>
+      </div>
+    </div>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#show_map').click(function(e) {  
+        $('#drop').click();
+      });
+    });
+
+    var markers = [];
+        var map;
+
+        function initMap() {
+          map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: {lat: <%= current_company.last_latitude %>, lng: <%= current_company.last_longitude %>}
+          });
+        }
+
+        function drop() {
+          $.get("/list_vehicles", function(data){
+            clearMarkers();
+            for (var i = 0; i < data.length; i++) {
+              color = data[i].color
+              name = data[i].vehicle_name
+              histories = data[i].histories
+              for(var j = 0; j < histories.length; j++) {
+               addMarkerWithTimeout(histories[j], j * 200, color, name);
+              }
+            }
+        });
+        }
+
+
+        function addMarkerWithTimeout(position, timeout, color, name) {
+          window.setTimeout(function() {
+            markers.push(new google.maps.Marker({
+              position: position,
+              map: map,
+              // animation: google.maps.Animation.DROP,
+              title: name,
+              icon:{
+                  path: 'M38.25,7a1.433,1.433,0,0,0,.5,1.1V9a.472.472,0,0,0,.5.5h.5a.472.472,0,0,0,.5-.5V8.5h4V9a.472.472,0,0,0,.5.5h.5a.472.472,0,0,0,.5-.5V8.1a1.433,1.433,0,0,0,.5-1.1V2c0-1.75-1.8-2-4-2s-4,.25-4,2ZM40,7.5a.75.75,0,1,1,.75-.75A.769.769,0,0,1,40,7.5Zm4.5,0a.75.75,0,1,1,.75-.75A.769.769,0,0,1,44.5,7.5Zm.75-3h-6V2h6Z',
+                  fillColor: '#' + color,
+                  fillOpacity: 1.0,
+                  strokeColor: '#000000',
+                  strokeWeight: 1,
+                  scale: 2,
+                  anchor: new google.maps.Point(12, 24),
+              }
+            }));
+          }, timeout);
+        }
+
+        function clearMarkers() {
+          for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+          }
+          markers = [];
+        }
+      </script>
+      <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmG3jBad2HLmPLgcTDLqH55a3aCEQ7ZQk&callback=initMap">
+      </script>
+
+  </script>
+<% else %>
+  <img src="<%= asset_path('home.png') %>" class="splash_img">
+  <script type="text/javascript">
+  function delayedRedirect(){
+      window.location = "<%= new_company_session_path %>"
+  }
+  </script>
+  <body onLoad="setTimeout('delayedRedirect()', 3000)">
+<% end %>
+

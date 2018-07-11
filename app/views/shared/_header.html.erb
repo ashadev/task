@@ -1,0 +1,6 @@
+<% if current_company.present? %>
+	<%= link_to "Logout", destroy_company_session_path, method: :delete %><br>
+<% else %>
+	<%= link_to "Login", new_company_session_path %><br>
+	<%= link_to "Sign Up", new_company_registration_path %><br>
+<% end %>

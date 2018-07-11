@@ -1,0 +1,118 @@
+<% if @company.present? %>
+	<div class="login_screen">
+		<div class="row">
+	        <div class="col-xl-6 col-md-6">
+	          <span class="back_text"><img src="<%= asset_path('right_arrow.png') %>" alt="right_arrow"> &nbsp;Reset password</span>
+	        </div>
+	    </div>
+		<div class="row">
+	      <% if flash[:success] %>
+	          <div class="success_msg" id=""><%= flash[:success] %></div>
+	      <% end %>
+	      <% if flash[:error] %>
+	          <div class="error_msg" id=""><%= flash[:error] %></div>
+	      <% end %>
+	  	</div><br>
+
+		<%= form_tag company_password_path(reset_password_token: @reset_password_token), method: :patch do %>
+		  	<div class="form-group">
+	            <label for="exampleInputPassword1">Password</label>
+	            <%= password_field_tag "password", "", class: "form-control border_line", maxlength: 20, id: "edit_password_password" %>
+	            <span id="edit_password_password_err" class="error-text"></span>
+	        </div>
+	          
+	       	<div class="form-group">
+	           <label for="exampleConfirmPassword">Confirm password</label>
+	          <%= password_field_tag "confirm_password", "", class: "form-control border_line", maxlength: 20, id: "edit_password_confirm_password" %>
+	          <span id="edit_password_confirm_password_err" class="error-text"></span>
+	       	</div>
+
+		  	<div class="actions">
+		    	<%= submit_tag "Submit", class: "btn btn-primary blue_btn", onclick: "return EditPasswordForm()" %>
+		  	</div>
+		<% end %>
+
+		<div class="row">
+	        <div class="col-xl-6 col-md-6">
+	          <%= link_to new_session_path(resource_name) do %><span>&nbsp;Log in</span><% end %>
+	        </div>
+	        <div class="col-xl-6 col-md-6">
+	          <%= link_to new_registration_path(resource_name) do %><span>&nbsp;Sign up</span><% end %>
+	        </div>
+	    </div>
+	</div>
+<% else %>
+	<div class="login_screen">
+		<div class="row">
+	        <div class="col-xl-6 col-md-6">
+	          <span class="back_text"><img src="<%= asset_path('right_arrow.png') %>" alt="right_arrow"> &nbsp;Reset password</span>
+	        </div>
+	    </div><br>
+		<div class="row">
+			Invalid token or expired token.
+		</div>
+		<div class="row">
+	        <div class="col-xl-6 col-md-6">
+	          <%= link_to new_session_path(resource_name) do %><span>&nbsp;Log in</span><% end %>
+	        </div>
+	        <div class="col-xl-6 col-md-6">
+	          <%= link_to new_registration_path(resource_name) do %><span>&nbsp;Sign up</span><% end %>
+	        </div>
+	    </div>
+	</div>
+<% end %>
+
+
+<script type="text/javascript">
+    function EditPasswordForm() {
+        password = $('#edit_password_password').val();
+        confirm_password = $('#edit_password_confirm_password').val();
+
+        if(password == null || password == '') {
+            $('#edit_password_password_err').html('Password is required');
+            $('#edit_password_password').focus();
+            return false;
+        }else{
+            $('#edit_password_password_err').html('')
+        }
+
+        if (password.length < 6){
+            $('#edit_password_password_err').html('Password should be 6-20 characters');
+            $('#edit_password_password').focus();
+            return false;
+        }else{
+            $('#edit_password_password_err').html('')
+        }
+
+        if (validatePassword(password)) {
+        }else{
+        	$('#edit_password_password_err').html('Password should be contain aleast one lower and upper case, one number and one special character.');
+            $('#edit_password_password').focus();
+            return false;
+        }
+
+        if(confirm_password == null || confirm_password == '') {
+            $('#edit_password_confirm_password_err').html('Confirm Password is required');
+            $('#edit_password_confirm_password').focus();
+            return false;
+        }else{
+            $('#edit_password_confirm_password_err').html('')
+        }
+
+        if (confirm_password.length < 6){
+            $('#edit_password_confirm_password_err').html('Confirm Password should be 6-20 characters');
+            $('#edit_password_confirm_password').focus();
+            return false;
+        }else{
+            $('#edit_password_confirm_password_err').html('')
+        }
+
+        if (password == confirm_password){
+            $('#edit_password_confirm_password_err').html('')
+        }else {
+            $('#edit_password_confirm_password_err').html('Password and Confirm Password do not match');
+            $('#edit_password_confirm_password').focus();
+            return false;
+        }
+    }
+</script>
