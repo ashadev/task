@@ -794,6 +794,71 @@ ul.location_icon li:hover .vehicle_list{
     transition: all 0.3s ease;
     z-index: 999;
 }
+
+.bd-bt{
+  border-bottom: 1px solid #e0e0e2;
+}
+
+.profile_btn .btn.focus, .btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0);
+    text-decoration: none;
+}
+
+.profile_btn .btn{
+  background: rgb(244, 244, 244);
+}
+
+.profile_btn a:hover {
+    text-decoration: none;
+}
+
+.profile_btn .btn-default:hover {
+    color: #fff;
+    background-color: #dbdbdc;
+    border-color: #e2e2e2;
+}
+
+.back_text1{
+    font-size: 20px;
+    color: #454F63;
+    display: inline-block;
+    padding: 15px 0 15px;
+}
+
+.profile_screen img {
+    margin-right: 25px;
+    margin-left: 25px;
+}
+
+.profile_screen .tab-content{
+    background-color: rgb(252, 252, 253);
+}
+
+.lbl1 {
+    margin-bottom: 1px;
+    padding: 2px 0px 0px 21px;
+    color: #444141;
+}
+
+.card1 {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 10px 0px;
+}
+
+a {
+    color: #000000 !important;
+  }
+
 @media (max-width:767px){
   .col-xl-6{
     width: 50%;

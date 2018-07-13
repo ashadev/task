@@ -93,6 +93,10 @@ class Company < ApplicationRecord
     	incom_speed.to_f * 1.852
     end
 
+    def self.datetime_parse(date, time)
+    	DateTime.strptime("#{date} #{time}", '%d%m%y %H%M%S')
+    end
+
 	# def last_latitude
 	# 	return 10.993442.to_s.to_f unless self.vehicles.present?
 

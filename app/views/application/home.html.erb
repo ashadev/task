@@ -39,7 +39,7 @@
             <li><img src="<%= asset_path('icons-filter-dark.png') %>" alt="icons-filter-dark"></li>
             <li><img src="<%= asset_path('path.png') %>" alt="path"></li>
           </ul> -->
-          <%= link_to destroy_company_session_path, method: :delete do %><img src="<%= asset_path('logout.png') %>" alt="logout" class="logout_btn"><% end %>
+          <%= link_to company_profile_path do %><img src="<%= asset_path('profile.png') %>" alt="profile" class="logout_btn"><% end %>
         </div>
       </div>
       <div class="row">

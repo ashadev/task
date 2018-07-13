@@ -1,0 +1,78 @@
+<div class="vehicle_screen">
+  	<div class="row bd-bt">
+	    <div class="col-xl-6 col-md-6">
+	      <%= link_to root_path do %><span class="back_text"><img src="<%= asset_path('right_arrow.png') %>" alt="right_arrow">&nbsp;Edit Organisation</span><% end %>
+	    </div>
+	    <div class="col-xl-6 col-md-6">
+	      <%= link_to edit_company_path do %><img src="<%= asset_path('edit-icon.png') %>" alt="logout" class="logout_btn"><% end %>
+	    </div>
+  	</div><br>
+  	<div class="row">
+	    <% if flash[:success] %>
+	        <div class="success_msg" id=""><%= flash[:success] %></div>
+	    <% end %>
+	    <% if flash[:error] %>
+	        <div class="error_msg" id=""><%= flash[:error] %></div>
+	    <% end %>
+  	</div>
+    
+    <div class="tab-content">
+		<div role="tabpanel" class="tab-pane fade in active" id="login">
+		 	<form class="card1">
+		 		<div class="form-group">
+			        <label for="lbl1">Company name</label>
+			        <h6 class="lbl1"><%= current_company.company_name %></h6>
+			    </div>
+		    </form>
+		    
+		    <form class="card1">  
+			    <div class="form-group">
+			        <label for="lbl1">Email address</label>
+			        <h6 class="lbl1"><%= current_company.email %></h6>
+			    </div>
+			</form>
+		    
+		    <form class="card1">  
+			    <div class="form-group">
+			        <label for="lbl1">Owner name</label>
+			        <h6 class="lbl1"><%= current_company.owner_name %></h6>
+			    </div>
+			</form>
+
+			<form class="card1">
+			    <div class="form-group">
+			        <label for="lbl1">Phone Number</label>
+			        <h6 class="lbl1"><%= current_company.phone_number %></h6>
+			    </div>
+			</form>
+
+			<form class="card1">
+			    <div class="form-group">
+			        <label for="lbl1">Phone Number2(optional)</label>
+			        <h6 class="lbl1"><%= current_company.phone_number2 %></h6>
+			    </div>
+			</form>
+
+			<form class="card1">
+			    <div class="form-group">
+			        <label for="lbl1">Phone Number3(optional)</label>
+			        <h6 class="lbl1"><%= current_company.phone_number3 %></h6>
+			    </div>
+			</form>
+		</div>
+	</div>
+
+    <div class="profile_btn">
+		<div class="">
+			<p>
+				<%= link_to edit_password_path, class: "btn btn-default btn-lg btn-block" do %>Change Password<% end %>
+			</p>
+		</div>
+
+		<div class="">
+			<p>
+				<%= link_to destroy_company_session_path, method: :delete, class: "btn btn-default btn-lg btn-block" do %>Logout<% end %>
+			</p>
+		</div>
+	</div>
+</div>

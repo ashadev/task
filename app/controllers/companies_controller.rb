@@ -1,5 +1,7 @@
 class CompaniesController < ApplicationController
-	before_action :set_company, only: [:edit, :update]
+
+	def profile
+	end
 
 	def edit
 	end

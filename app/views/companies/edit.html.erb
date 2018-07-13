@@ -1,10 +1,7 @@
 <div class="vehicle_screen">
-  	<div class="row">
+  	<div class="row bd-bt">
 	    <div class="col-xl-6 col-md-6">
-	      <%= link_to root_path do %><span class="back_text"><img src="<%= asset_path('right_arrow.png') %>" alt="right_arrow">&nbsp;Edit Organisation</span><% end %>
-	    </div>
-	    <div class="col-xl-6 col-md-6">
-	      <%= link_to destroy_company_session_path, method: :delete do %><img src="<%= asset_path('logout.png') %>" alt="logout" class="logout_btn"><% end %>
+	      <%= link_to company_profile_path do %><span class="back_text"><img src="<%= asset_path('right_arrow.png') %>" alt="right_arrow">&nbsp;Edit Organisation</span><% end %>
 	    </div>
   	</div><br>
   	<div class="row">
@@ -15,47 +12,49 @@
 	        <div class="error_msg" id=""><%= flash[:error] %></div>
 	    <% end %>
   	</div>
-  	<%= form_tag company_path(current_company), method: :patch do %>
-    
-     	<div class="form-group">
-            <label for="exampleInputName">Company name</label>
-            <%= text_field_tag "company_name", @company.company_name, class: "form-control border_line", maxlength: 30, id: "sign_up_company_name", onkeypress: "return IsAlphaPersonName(event);" %>
-            <span id="sign_up_company_name_err" class="error-text"></span>
-        </div>
-          
-          
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <%= text_field_tag "email", @company.email, class: "form-control border_line", maxlength: 50, id: "sign_up_email", readonly: true %>
-            <span id="sign_up_email_err" class="error-text"></span>
-        </div>
-          
-        <div class="form-group">
-            <label for="exampleInputLastName">Owner name</label>
-            <%= text_field_tag "owner_name", @company.owner_name, class: "form-control border_line", maxlength: 30, id: "sign_up_owner_name", onkeypress: "return IsAlphaPersonName(event);" %>
-            <span id="sign_up_owner_name_err" class="error-text"></span>
-        </div>
+    <div class="tab-content">
+      	<%= form_tag update_company_path, method: :patch do %>
+        
+         	<div class="form-group">
+                <label for="exampleInputName">Company name</label>
+                <%= text_field_tag "company_name", current_company.company_name, class: "form-control border_line", maxlength: 30, id: "sign_up_company_name", onkeypress: "return IsAlphaPersonName(event);" %>
+                <span id="sign_up_company_name_err" class="error-text"></span>
+            </div>
+              
+              
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <%= text_field_tag "email", current_company.email, class: "form-control border_line", maxlength: 50, id: "sign_up_email", readonly: true %>
+                <span id="sign_up_email_err" class="error-text"></span>
+            </div>
+              
+            <div class="form-group">
+                <label for="exampleInputLastName">Owner name</label>
+                <%= text_field_tag "owner_name", current_company.owner_name, class: "form-control border_line", maxlength: 30, id: "sign_up_owner_name", onkeypress: "return IsAlphaPersonName(event);" %>
+                <span id="sign_up_owner_name_err" class="error-text"></span>
+            </div>
 
-        <div class="form-group">
-            <label for="exampleInputEmail1">Phone Number</label>
-            <%= text_field_tag "phone_number", @company.phone_number, class: "form-control border_line", maxlength: 10, id: "sign_up_phone_number", onkeypress: "return IsNumeric(event);", readonly: true %>
-            <span id="sign_up_phone_number_err" class="error-text"></span>
-        </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Phone Number</label>
+                <%= text_field_tag "phone_number", current_company.phone_number, class: "form-control border_line", maxlength: 10, id: "sign_up_phone_number", onkeypress: "return IsNumeric(event);", readonly: true %>
+                <span id="sign_up_phone_number_err" class="error-text"></span>
+            </div>
 
-        <div class="form-group">
-            <label for="exampleInputEmail1">Phone Number2(optional)</label>
-            <%= text_field_tag "phone_number2", @company.phone_number2, class: "form-control border_line", maxlength: 10, id: "sign_up_phone_number2", onkeypress: "return IsNumeric(event);" %>
-            <span id="sign_up_phone_number2_err" class="error-text"></span>
-        </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Phone Number2(optional)</label>
+                <%= text_field_tag "phone_number2", current_company.phone_number2, class: "form-control border_line", maxlength: 10, id: "sign_up_phone_number2", onkeypress: "return IsNumeric(event);" %>
+                <span id="sign_up_phone_number2_err" class="error-text"></span>
+            </div>
 
-        <div class="form-group">
-            <label for="exampleInputEmail1">Phone Number3(optional)</label>
-            <%= text_field_tag "phone_number3", @company.phone_number3, class: "form-control border_line", maxlength: 10, id: "sign_up_phone_number3", onkeypress: "return IsNumeric(event);" %>
-            <span id="sign_up_phone_number3_err" class="error-text"></span>
-        </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Phone Number3(optional)</label>
+                <%= text_field_tag "phone_number3", current_company.phone_number3, class: "form-control border_line", maxlength: 10, id: "sign_up_phone_number3", onkeypress: "return IsNumeric(event);" %>
+                <span id="sign_up_phone_number3_err" class="error-text"></span>
+            </div>
 
-    	<%= submit_tag "Submit", class: "btn btn-primary btn-block", onclick: "return SignUpForm()", id: "new_btn" %>
-  	<% end %>
+        	<%= submit_tag "Submit", class: "btn btn-primary btn-block", onclick: "return SignUpForm()", id: "new_btn" %>
+      	<% end %>
+    </div>
 </div>
 
 <script type="text/javascript">

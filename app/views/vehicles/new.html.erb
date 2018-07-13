@@ -8,7 +8,7 @@
             <li><img src="<%= asset_path('icons-filter-dark.png') %>" alt="icons-filter-dark"></li>
             <li><img src="<%= asset_path('path.png') %>" alt="path"></li>
           </ul> -->
-          <%= link_to destroy_company_session_path, method: :delete do %><img src="<%= asset_path('logout.png') %>" alt="logout" class="logout_btn"><% end %>
+          <%= link_to company_profile_path do %><img src="<%= asset_path('profile.png') %>" alt="profile" class="logout_btn"><% end %>
         </div>
 
       </div>
@@ -85,6 +85,9 @@
         vehicle_name = $('#new_vehicle_name').val().trim();
         device_id = $('#new_device_id').val();
         vehicle_number = $('#new_vehicle_number').val();
+        maximum_voltage = $('#new_maximum_voltage').val();
+        threshold_voltage = $('#new_threshold_voltage').val();
+        minimum_voltage = $('#new_minimum_voltage').val();
 
         if(vehicle_name == null || vehicle_name == '') {
             $('#new_vehicle_name_err').html('Vehicle Name is required')
@@ -125,6 +128,58 @@
           return false;
         }else{
             $('#new_device_id_err').html('')
+        }
+
+        if(minimum_voltage == null || minimum_voltage == '') {
+            $('#new_minimum_voltage_err').html('Minimum Voltage is required')
+            $('#new_minimum_voltage').focus();
+            return false;
+        }else {
+            $('#new_minimum_voltage_err').html('')
+        }
+
+        // var val_minimum_voltage = parseFloat(minimum_voltage);
+        // if (isNaN(val_minimum_voltage) || (val_minimum_voltage === 0)) {
+        //   $('#new_minimum_voltage_err').html('Minimum Voltage should not be zero');
+        //   $('#new_minimum_voltage').focus();
+        //   return false;
+        // }else{
+        //     $('#new_minimum_voltage_err').html('')
+        // }
+
+        if(maximum_voltage == null || maximum_voltage == '') {
+            $('#new_maximum_voltage_err').html('Maximum Voltage is required')
+            $('#new_maximum_voltage').focus();
+            return false;
+        }else {
+            $('#new_maximum_voltage_err').html('')
+        }
+
+        var val_maximum_voltage = parseFloat(maximum_voltage);
+        var val_minimum_voltage = parseFloat(minimum_voltage);
+        if ((isNaN(val_maximum_voltage) || (val_maximum_voltage === 0)) && (isNaN(val_minimum_voltage) || (val_minimum_voltage === 0)) ) {
+          $('#new_maximum_voltage_err').html('Minimum and Maximum Voltage both cannot be zero');
+          $('#new_maximum_voltage').focus();
+          return false;
+        }else{
+            $('#new_maximum_voltage_err').html('')
+        }
+
+        if(threshold_voltage == null || threshold_voltage == '') {
+            $('#new_threshold_voltage_err').html('Threshold Voltage is required')
+            $('#new_threshold_voltage').focus();
+            return false;
+        }else {
+            $('#new_threshold_voltage_err').html('')
+        }
+
+        var val_threshold_voltage = parseFloat(threshold_voltage);
+        if (isNaN(val_threshold_voltage) || (val_threshold_voltage === 0)) {
+          $('#new_threshold_voltage_err').html('Threshold Voltage should not be zero');
+          $('#new_threshold_voltage').focus();
+          return false;
+        }else{
+            $('#new_threshold_voltage_err').html('')
         }
 
         // if(vehicle_number == null || vehicle_number == '') {
