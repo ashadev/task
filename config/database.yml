@@ -36,6 +36,6 @@ production:
   pool: 5
   username: vehicle_tracking
   password: knila123
-  host: 13.59.22.41
+  host: vehicletracking.cak7obmfrx4w.us-east-2.rds.amazonaws.com
   port: 3306
   socket: /tmp/mysql.sock
