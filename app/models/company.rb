@@ -62,10 +62,12 @@ class Company < ApplicationRecord
 		        			digital_ip_op: incom_dig_ip_op.to_s[0],
 		        			external_power_status: ext_power_supply,
 		        			analog_ip1: analog_ip1,
-		        			analog_ip2: analog_ip2
+		        			analog_ip2: analog_ip2,
+		        			sent_at: Company.datetime_parse(incom_date, utc_time)
 		        		)
 		        		history.save
 		        		p "Data saved..."
+		        		
 		        	else
 		        		p "Vehicle Not present...."
 		        	end

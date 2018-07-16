@@ -236,7 +236,10 @@
     });
 
     $(document).ready(function() {
+      $('#loading').show();
         $('#drop').click();
+        $('#loading').hide();
+
     });
       // If you're adding a number of markers, you may want to drop them on the map
       // consecutively rather than all at once. This example shows how to use
@@ -348,4 +351,20 @@
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=<%= VehicleTracking::Application::GOOGLE_MAP_API_KEY %>&callback=initMap">
     </script>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    // will call refreshPartial every 3 seconds
+    setInterval(refreshPartial, 60000)
+
+});
+
+// calls action refreshing the partial
+function refreshPartial() {
+  $.ajax({
+    url: "<%= refresh_vehicle_path %>",
+    format: 'js'
+ })
+}
+</script>
 

@@ -1,7 +1,7 @@
 class VehicleTravelHistory < ApplicationRecord
 	belongs_to :vehicle
 	
-	scope :today_history, -> (date) { where('DATE(created_at) =?', Date.parse(date)).order('id ASC') }
+	scope :today_history, -> (date) { where('DATE(sent_at) =?', Date.parse(date)).order('id ASC') }
 	scope :ignition_on, -> { where(digital_ip_op: true)}
 	scope :ignition_off, -> { where(digital_ip_op: false)}
 

@@ -16,7 +16,7 @@ class Vehicle < ApplicationRecord
 		parse_to_time = Time.parse(to_time)
 		from_time = (parse_to_time - 30.minutes).strftime("%H:%M:%S")
 
-		speeds = vehicle_travel_histories.today_history(date).where("TIME(created_at) BETWEEN '#{from_time}' AND '#{to_time}'").pluck(:speed)
+		speeds = vehicle_travel_histories.today_history(date).where("TIME(sent_at) BETWEEN '#{from_time}' AND '#{to_time}'").pluck(:speed)
 
 		return 0 if speeds.count.zero?
 		avg_speed = (speeds.map(&:to_f).inject(0, :+).to_s.to_f / speeds.count)
@@ -30,7 +30,7 @@ class Vehicle < ApplicationRecord
 		parse_to_time = Time.parse(to_time)
 		from_time = (parse_to_time - 1.hour).strftime("%H:%M:%S")
 
-		speeds = vehicle_travel_histories.today_history(date).where("TIME(created_at) BETWEEN '#{from_time}' AND '#{to_time}'").pluck(:speed)
+		speeds = vehicle_travel_histories.today_history(date).where("TIME(sent_at) BETWEEN '#{from_time}' AND '#{to_time}'").pluck(:speed)
 		return 0 if speeds.count.zero?
 		avg_speed = (speeds.map(&:to_f).inject(0, :+).to_s.to_f / speeds.count)
 
@@ -43,7 +43,7 @@ class Vehicle < ApplicationRecord
 		parse_to_time = Time.parse(to_time)
 		from_time = (parse_to_time - (1.hour + 30.minutes)).strftime("%H:%M:%S")
 
-		speeds = vehicle_travel_histories.today_history(date).where("TIME(created_at) BETWEEN '#{from_time}' AND '#{to_time}'").pluck(:speed)
+		speeds = vehicle_travel_histories.today_history(date).where("TIME(sent_at) BETWEEN '#{from_time}' AND '#{to_time}'").pluck(:speed)
 		return 0 if speeds.count.zero?
 		avg_speed = (speeds.map(&:to_f).inject(0, :+).to_s.to_f / speeds.count)
 
@@ -56,7 +56,7 @@ class Vehicle < ApplicationRecord
 		parse_to_time = Time.parse(to_time)
 		from_time = (parse_to_time - 2.hour).strftime("%H:%M:%S")
 
-		speeds = vehicle_travel_histories.today_history(date).where("TIME(created_at) BETWEEN '#{from_time}' AND '#{to_time}'").pluck(:speed)
+		speeds = vehicle_travel_histories.today_history(date).where("TIME(sent_at) BETWEEN '#{from_time}' AND '#{to_time}'").pluck(:speed)
 		return 0 if speeds.count.zero?
 		avg_speed = (speeds.map(&:to_f).inject(0, :+).to_s.to_f / speeds.count)
 
@@ -67,7 +67,7 @@ class Vehicle < ApplicationRecord
 	# ============ Fuel Level ===================
 
 	def avg_fuel_level(date, from_time, to_time)
-		analog_ips = vehicle_travel_histories.today_history(date).where("TIME(created_at) BETWEEN '#{from_time}' AND '#{to_time}'").pluck(:analog_ip2)
+		analog_ips = vehicle_travel_histories.today_history(date).where("TIME(sent_at) BETWEEN '#{from_time}' AND '#{to_time}'").pluck(:analog_ip2)
 		return 0 if analog_ips.count.zero?
 		(analog_ips.map(&:to_f).inject(0, :+).to_s.to_f / analog_ips.count).round(3)
 	end
@@ -109,8 +109,11 @@ class Vehicle < ApplicationRecord
 
 	def last_updated_time
 		last_rec = vehicle_travel_histories.last
-		
-		last_rec.created_at.strftime("%I:%M %p") if last_rec.present?
+		if last_rec.present?
+			last_rec.sent_at.present? ? last_rec.sent_at.strftime("%I:%M %p") : ""
+		else
+			""
+		end
 	end
 
 	def last_latitude
@@ -161,10 +164,14 @@ class Vehicle < ApplicationRecord
 		parse_to_time = Time.parse(to_time)
 		from_time = (parse_to_time - 15.minutes).strftime("%H:%M:%S")
 
-		vehicle_travel_histories.where("TIME(created_at) BETWEEN '#{from_time}' AND '#{to_time}'").today_history(date)
+		vehicle_travel_histories.where("TIME(sent_at) BETWEEN '#{from_time}' AND '#{to_time}'").today_history(date)
 	end
 
 	def self.search(word)
 		Vehicle.where("vehicle_name like ? or device_id like ?","%#{word}%", "%#{word}%")
+	end
+
+	def check_last_history?
+		vehicle_travel_histories.today_history(date = Vehicle::TODAY_DATE_STRFTIME).present?
 	end
 end

@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   resources :vehicles, except: :destroy
   delete 'vehicles/delete', to: 'vehicles#destroy', as: :delete_vehicle
   get 'list_vehicles', to: 'vehicles#list_vehicles', as: :list_vehicles  
-  get 'vehicle/:id/list_histories', to: 'vehicles#list_vehicle_histories', as: :list_vehicle_histories  
+  get 'vehicle/:id/list_histories', to: 'vehicles#list_vehicle_histories', as: :list_vehicle_histories 
+  get 'refresh', to: 'vehicles#refresh', as: :refresh_vehicle   
 
   get 'company/profile', to: 'companies#profile', as: :company_profile  
   get 'company/edit', to: 'companies#edit', as: :edit_company

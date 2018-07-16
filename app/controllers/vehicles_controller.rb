@@ -78,6 +78,12 @@ class VehiclesController < ApplicationController
 		@vehicles = current_company.vehicles.search(params[:query])
 	end
 
+	def refresh
+		respond_to do |format|
+		    format.js
+		end
+	end
+
 	private
 	def set_vehicle
 		@vehicle = Vehicle.find_by(id: params[:id])

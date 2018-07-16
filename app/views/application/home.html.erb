@@ -29,6 +29,60 @@
         margin-left: -52px;
       }*/
   </style>
+
+  <style type="text/css">
+    body {
+    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
+    }
+
+    label {
+    display: inline-block;
+    margin-bottom: 0px;
+    }
+
+    .sm-mt{
+      font-size: 10px;
+      margin-bottom: 5px;
+    }
+
+    .sm-md{
+      font-size: 12px;
+    }
+
+    .card {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 1.25rem;
+    width: 240px;
+    height: 140px;
+    margin: 0 auto;
+    -webkit-box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0), 0 5px 12px 0 rgba(0, 0, 0, 0.09);
+    }
+
+    .pd-r{
+      padding-right: 0px;
+    }
+
+    .pd-l{
+      padding-left: 0px;
+    }
+
+    .form-group {
+    margin-bottom: 5px;
+    }
+  </style>
 	<div class="trip_screen">
       <div class="row">
         <div class="col-xl-6 col-md-6">
@@ -196,21 +250,24 @@
             for (var i = 0; i < data.length; i++) {
               color = data[i].color
               name = data[i].vehicle_name
+              device_id = data[i].device_id
+              last_updated_time = data[i].last_updated_time
               histories = data[i].histories
-              for(var j = 0; j < histories.length; j++) {
-               addMarkerWithTimeout(histories[j], j * 200, color, name);
+              if (histories !== null || histories !== ""){
+                // for(var j = 0; j < histories.length; j++) {
+                 addMarkerWithTimeout(histories, 0, color, name, device_id, last_updated_time);
+                // }
               }
             }
         });
         }
 
-
-        function addMarkerWithTimeout(position, timeout, color, name) {
+        function addMarkerWithTimeout(position, timeout, color, name, device_id, last_updated_time) {
           window.setTimeout(function() {
-            markers.push(new google.maps.Marker({
+            var marker = new google.maps.Marker({
               position: position,
               map: map,
-              // animation: google.maps.Animation.DROP,
+              animation: null,
               title: name,
               icon:{
                   path: 'M38.25,7a1.433,1.433,0,0,0,.5,1.1V9a.472.472,0,0,0,.5.5h.5a.472.472,0,0,0,.5-.5V8.5h4V9a.472.472,0,0,0,.5.5h.5a.472.472,0,0,0,.5-.5V8.1a1.433,1.433,0,0,0,.5-1.1V2c0-1.75-1.8-2-4-2s-4,.25-4,2ZM40,7.5a.75.75,0,1,1,.75-.75A.769.769,0,0,1,40,7.5Zm4.5,0a.75.75,0,1,1,.75-.75A.769.769,0,0,1,44.5,7.5Zm.75-3h-6V2h6Z',
@@ -219,10 +276,25 @@
                   strokeColor: '#000000',
                   strokeWeight: 1,
                   scale: 2,
-                  anchor: new google.maps.Point(12, 24),
+                  anchor: new google.maps.Point(40, 10),
               }
-            }));
+            })
+            markers.push(marker);
+            var content = "<div class='container'><div class='row'><div class='card'><div class='card-body'><form><div class='row'><div class='col pd-r'><div><label>"+name+"</label></div></div><div class='col pd-l'><label class='text-muted sm-mt'>" + device_id + "</label></div></div></form><form><div class='row'><div class='col pd-r'><div><div class='form-group'><img src='" + "<%= asset_path('gas-station.png') %>" + "' class=''><label class='sm-mt text-muted'>&ensp;Fuel</label></div></div></div><div class='col pd-l'><div class='form-group'><img src='"+ "<%= asset_path('route1.png') %>" + "'><label class='sm-mt text-muted'>&ensp;Travel</label></div></div></div></form><form><div class='row'><div class='col pd-r'><h6 class='card-title'><b>15 Ltr</b></h6></div><div class='col pd-l'><h6 class='card-title'><b>30 Km</b></h6></div></div></form><form><div class='row'><div class='col'><label class='card-subtitle text-muted sm-md'>Last Updated Time - "+ last_updated_time+ "</label></div></div></form></div></div></div></div>"     
+
+            var infowindow = new google.maps.InfoWindow()
+
+            google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+                return function() {
+                    infowindow.setContent(content);
+                    infowindow.open(map,marker);
+                    google.maps.event.addListener(map,'click', function(){ 
+                        infowindow.close();
+                    }); 
+                };
+            })(marker,content,infowindow)); 
           }, timeout);
+
         }
 
         function clearMarkers() {
