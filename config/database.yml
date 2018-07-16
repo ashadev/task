@@ -34,8 +34,8 @@ production:
   reconnect: false
   database: vehicle_tracking
   pool: 5
-  username: root
-  password: "new-password"
-  host: 18.217.66.193
+  username: vehicle_tracking
+  password: knila123
+  host: 13.59.22.41
   port: 3306
   socket: /tmp/mysql.sock
