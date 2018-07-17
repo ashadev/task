@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   def home
   	Thread.new do
     	p 'hello...... started...'
-  		# Company.tcp_connection
+  		Company.tcp_connection
   	end
   end
 end
