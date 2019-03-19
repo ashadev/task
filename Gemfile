@@ -29,20 +29,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-gem 'jquery-rails'
-gem 'mysql2'
-# gem 'bcrypt', '~> 3.1.7'
-gem 'bootstrap', '~> 4.1.1'
-gem "font-awesome-rails"
-
-gem 'devise'
-gem 'devise_invitable', '~> 1.7.0'
-gem 'carrierwave', '~> 1.0'
-
-gem 'httparty'
-
-# Scheduler
-gem 'rufus-scheduler'
+gem 'sidekiq'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

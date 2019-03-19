@@ -1,71 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>VehicleTracking</title>
+    <title>Task</title>
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   </head>
 
   <body>
     <%= yield %>
   </body>
 </html>
-
-
-<script type="text/javascript">
-  	function validateEmail(email) {
-	    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	    console.log(re.test(email));
-	    return re.test(email);
-  	}
-
-    function validatePassword(password){
-      var pass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{6,}/
-      return pass.test(password);
-    }
-
-  function IsAlphaNumericTitle(e) { //allow only alpha numeric and .()-_&space
-      var keyCode = e.keyCode == e.charCode ? e.keyCode : e.charCode;
-      
-      if(keyCode !== 46 && keyCode !== 40 && keyCode !== 41 && keyCode !== 45 && keyCode !== 32 && keyCode !== 38 && keyCode !== 95 && keyCode !==  9 && keyCode !== 0){
-        var ret = ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122));
-        return ret;
-      }
-  }
-
-
-  function IsAlphaNumeric(e) { //allow only alpha numeric
-    var keyCode = e.keyCode == e.charCode ? e.keyCode : e.charCode;
-    if(keyCode !== 32){
-      var ret = ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122));
-      return ret;
-    }
-  }
-
-  function IsNumeric(e) {
-    var keyCode = e.keyCode == e.charCode ? e.keyCode : e.charCode;
-    if  (keyCode !==  9 && keyCode !== 0){
-      var ret = (keyCode >= 48 && keyCode <= 57);
-      // document.getElementById("error").style.display = ret ? "none" : "inline";
-      return ret;
-    }
-  }
-
-  function IsAlphaPersonName(e) { //allow only alpha and space and dot
-      var keyCode = e.keyCode == e.charCode ? e.keyCode : e.charCode;
-      if(keyCode !== 32 && keyCode !==  9 && keyCode !== 0){
-        var ret = ((keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122));
-        return ret;
-      }
-  }
-  </script>
 

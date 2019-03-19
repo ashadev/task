@@ -1,0 +1,17 @@
+---
+:concurrency: 15
+:pidfile: tmp/pids/sidekiq.pid
+staging:
+  :concurrency: 10 
+production:
+  :concurrency: 15
+:queues:
+  - default
+  - critical 
+  - low
+  - docs
+  - import
+:limits:
+    default: 30
+    critical: 10
+    background: 20
